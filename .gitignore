@@ -1,0 +1,32 @@
+# 環境變數檔案 - 包含敏感的 API Keys
+.env
+
+# Python 快取檔案
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 日誌檔案
+*.log
+
+# 資料檔案
+*.json
+*.csv
+
+# macOS 系統檔案
+.DS_Store
+
+# IDE 設定
+.vscode/
+.idea/
+
+# 臨時檔案
+*.tmp
+*.temp
+
+# Notion 相關檔案（已移除功能）
+*notion*
+
+# 個人設定檔案
+rotation_state.json
+crawler_rotation_state.json
