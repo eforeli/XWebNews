@@ -1,0 +1,10 @@
+.git
+.env
+*.log
+*.pyc
+__pycache__
+.pytest_cache
+.coverage
+*.md
+*.txt
+!requirements.txt
