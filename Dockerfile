@@ -10,6 +10,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY scheduler.py ./
 COPY rotational_crawler.py ./
 COPY news_reporter.py ./
+COPY entrypoint.sh ./
 COPY *.json ./
 COPY .env* ./
 
@@ -17,12 +18,10 @@ COPY .env* ./
 ENV TZ=Asia/Taipei
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Verify Python syntax before starting
-RUN python3 -m py_compile scheduler.py
-RUN python3 -m py_compile rotational_crawler.py
-RUN python3 -m py_compile news_reporter.py
+# Make entrypoint executable
+RUN chmod +x entrypoint.sh
 
 EXPOSE 8080
 
-# Use Python scheduler instead of cron
-CMD ["python3", "scheduler.py"]
+# Use entrypoint script with validation
+CMD ["./entrypoint.sh"]

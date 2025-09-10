@@ -8,3 +8,10 @@ __pycache__
 *.md
 *.txt
 !requirements.txt
+*test*
+*Test*
+auto_*
+quick_*
+smart_*
+complete_*
+wait_*
