@@ -1,0 +1,12 @@
+*.md
+*.txt
+*.log
+*test*
+*Test*
+auto_*
+quick_*
+smart_*
+complete_*
+wait_*
+setup_*
+get_*
