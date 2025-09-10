@@ -6,3 +6,4 @@ seaborn==0.12.2
 requests==2.32.5
 openai==0.28.1
 line-bot-sdk==3.5.0
+pytz==2023.3
