@@ -6,10 +6,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application files (excluding problematic test files)
-COPY *.py ./
+# Copy only essential files (exclude ALL test files)
+COPY scheduler.py ./
+COPY rotational_crawler.py ./
+COPY news_reporter.py ./
 COPY *.json ./
-COPY *.txt ./
 COPY .env* ./
 
 # Set timezone
