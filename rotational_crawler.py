@@ -86,6 +86,11 @@ class RotationalWeb3Crawler:
         
         # 更新輪替狀態
         rotation_state["rotation_index"] = (start_index + 2) % len(all_categories)
+        
+        # 確保 last_crawled 存在
+        if "last_crawled" not in rotation_state:
+            rotation_state["last_crawled"] = {}
+        
         rotation_state["last_crawled"][today] = todays_categories
         
         # 保存狀態
