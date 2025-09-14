@@ -15,8 +15,8 @@ COPY rotational_crawler.py .
 COPY news_reporter.py .
 COPY test_apis.py .
 
-# 創建缺失的狀態文件
-RUN echo '{}' > crawler_rotation_state.json
+# 創建正確結構的狀態文件
+RUN echo '{"rotation_index": 0, "last_crawled": {}}' > crawler_rotation_state.json
 
 # 設置時區
 ENV TZ=Asia/Taipei
