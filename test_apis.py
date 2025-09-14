@@ -14,8 +14,9 @@ try:
         print("❌ Twitter API: TWITTER_BEARER_TOKEN environment variable is not set")
     else:
         client = tweepy.Client(bearer_token=bearer_token)
-        me = client.get_me()
-        print("✅ Twitter API: OK")
+        # 使用不需要用戶授權的公開方法測試
+        user = client.get_user(username="twitter")  # 測試公開用戶
+        print(f"✅ Twitter API: OK - Retrieved user: {user.data.name}")
 except Exception as e:
     print(f"❌ Twitter API: {e}")
 
