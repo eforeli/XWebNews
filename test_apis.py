@@ -9,9 +9,13 @@ print("🧪 Testing APIs...")
 try:
     # Test Twitter
     bearer_token = os.getenv("TWITTER_BEARER_TOKEN")
-    client = tweepy.Client(bearer_token=bearer_token)
-    me = client.get_me()
-    print("✅ Twitter API: OK")
+    print(f"🔍 Debug: bearer_token type = {type(bearer_token)}, length = {len(bearer_token) if bearer_token else 'None'}")
+    if not bearer_token:
+        print("❌ Twitter API: TWITTER_BEARER_TOKEN environment variable is not set")
+    else:
+        client = tweepy.Client(bearer_token=bearer_token)
+        me = client.get_me()
+        print("✅ Twitter API: OK")
 except Exception as e:
     print(f"❌ Twitter API: {e}")
 
