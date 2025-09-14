@@ -4,7 +4,7 @@ import requests
 import tweepy
 import openai
 
-print("🧪 Testing APIs...")
+print("🧪 Testing APIs... (Updated 2025-09-14 22:30)")
 
 try:
     # Test Twitter
