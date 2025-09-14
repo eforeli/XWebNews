@@ -2,6 +2,7 @@ FROM python:3.11-slim
 
 # 明確告訴 Zeabur 這是 Python 專案
 LABEL language=python
+LABEL version="2025-09-14-force-rebuild"
 
 WORKDIR /app
 
