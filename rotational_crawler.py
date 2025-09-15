@@ -165,11 +165,83 @@ class RotationalWeb3Crawler:
             return tweets_data
             
         except tweepy.TooManyRequests as e:
-            self.logger.error(f"❌ {category}: API限制，今日無法爬取此賽道")
-            return []
+            self.logger.warning(f"⚠️ {category}: Twitter API配額已用完，生成測試資料")
+            return self.generate_test_data(category)
         except Exception as e:
             self.logger.error(f"❌ {category}: 錯誤 - {str(e)}")
             return []
+
+    def generate_test_data(self, category: str) -> List[Dict[str, Any]]:
+        """生成測試資料 - 當Twitter API配額用完時使用"""
+        
+        test_tweets = []
+        current_time = datetime.now()
+        
+        # 根據不同賽道生成相應的測試內容
+        test_content = {
+            "DeFi": [
+                "🚀 DeFi總鎖倉量創新高！去中心化金融正在重塑傳統金融體系",
+                "💰 新的流動性挖礦機會：APY高達15%，風險控制良好",
+                "🔥 跨鏈橋技術突破，多鏈DeFi生態即將爆發"
+            ],
+            "Layer1_Layer2": [
+                "⚡ Ethereum 2.0質押量突破新紀錄，網路安全性大幅提升",
+                "🌟 Solana生態項目數量激增，開發者活躍度創歷史新高", 
+                "🚀 Layer2擴容方案效果顯著，交易成本降低90%"
+            ],
+            "NFT_GameFi": [
+                "🎮 GameFi項目用戶數突破百萬，邊玩邊賺模式受到熱捧",
+                "🖼️ 藍籌NFT地板價穩定上升，市場信心逐漸恢復",
+                "🔥 元宇宙土地交易活躍，虛擬房地產投資成新趨勢"
+            ],
+            "AI_Crypto": [
+                "🤖 AI與區塊鏈結合產生化學反應，智能合約自動優化成為可能",
+                "💡 去中心化AI計算網路啟動，算力共享經濟即將到來",
+                "🚀 AI驅動的DeFi策略表現優異，自動化投資回報率提升"
+            ],
+            "RWA": [
+                "🏢 現實世界資產代幣化加速，房地產NFT市場升溫",
+                "💎 黃金代幣化產品受到機構投資者青睞",
+                "📈 傳統金融巨頭進軍RWA領域，資產代幣化成主流"
+            ],
+            "Meme_Coins": [
+                "🐕 DOGE社群活動火熱，馬斯克再次為狗狗幣站台",
+                "🐸 新興Meme幣異軍突起，社群驅動力量不容小覷",
+                "🚀 Meme幣市值創新高，娛樂性投資成年輕人新寵"
+            ],
+            "Infrastructure": [
+                "🔗 Chainlink預言機網路擴展，為更多DeFi項目提供可靠數據",
+                "🌉 跨鏈基礎設施完善，多鏈互操作性大幅改善",
+                "⚡ Web3基礎設施投資激增，去中心化網路建設加速"
+            ]
+        }
+        
+        # 為當前賽道生成3條測試推文
+        category_content = test_content.get(category, ["📊 Web3市場動態：創新技術持續推動行業發展"])
+        
+        for i, content in enumerate(category_content[:3]):
+            tweet_data = {
+                'category': category,
+                'tweet_id': f"test_{category}_{i+1}_{int(current_time.timestamp())}",
+                'text': content,
+                'created_at': (current_time - timedelta(hours=i)).isoformat(),
+                'author_id': f"test_user_{i+1}",
+                'username': f"Web3News_Test{i+1}",
+                'verified': True,
+                'retweet_count': 50 + i * 20,
+                'like_count': 200 + i * 50,
+                'reply_count': 10 + i * 5,
+                'quote_count': 5 + i * 2,
+                'engagement_score': 300 + i * 75,
+                'url': f"https://twitter.com/Web3News_Test{i+1}/status/test_{category}_{i+1}_{int(current_time.timestamp())}"
+            }
+            test_tweets.append(tweet_data)
+        
+        # 按互動度排序
+        test_tweets.sort(key=lambda x: x['engagement_score'], reverse=True)
+        
+        self.logger.info(f"✅ {category}: 已生成 {len(test_tweets)} 條測試推文")
+        return test_tweets
 
     def run_daily_crawl(self) -> Dict[str, List[Dict[str, Any]]]:
         """執行每日輪替爬取"""
@@ -240,6 +312,7 @@ def main():
     print("=" * 50)
     print("🎯 策略: 每日爬2個賽道，一週覆蓋所有賽道")
     print("⚡ 優勢: 避免API限制，確保成功率")
+    print("🧪 註：Twitter API配額已用完，10/1前將發送測試訊息")
     print("=" * 50)
     
     crawler = RotationalWeb3Crawler(BEARER_TOKEN)
