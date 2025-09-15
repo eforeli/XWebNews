@@ -23,8 +23,8 @@ RUN echo '{"rotation_index": 0, "last_crawled": {}}' > crawler_rotation_state.js
 ENV TZ=Asia/Taipei
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# 創建啟動腳本，先測試 API 再運行排程器
-RUN echo '#!/bin/bash\necho "🚀 Starting XWebNews Crawler..."\npython3 test_apis.py\necho "📅 Python scheduler starting..."\npython3 scheduler.py' > /entrypoint.sh && chmod +x /entrypoint.sh
+# 創建啟動腳本，直接運行排程器
+RUN echo '#!/bin/bash\necho "🚀 Starting XWebNews Crawler..."\necho "📅 Python scheduler starting..."\npython3 scheduler.py' > /entrypoint.sh && chmod +x /entrypoint.sh
 
 EXPOSE 8080
 
