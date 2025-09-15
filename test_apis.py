@@ -14,9 +14,12 @@ try:
         print("❌ Twitter API: TWITTER_BEARER_TOKEN environment variable is not set")
     else:
         client = tweepy.Client(bearer_token=bearer_token)
-        # 使用不需要用戶授權的公開方法測試
-        user = client.get_user(username="twitter")  # 測試公開用戶
-        print(f"✅ Twitter API: OK - Retrieved user: {user.data.name}")
+        # 使用 Bearer Token 支援的方法測試 - 搜尋推文
+        response = client.search_recent_tweets(query="bitcoin", max_results=10)
+        if response.data:
+            print(f"✅ Twitter API: OK - Found {len(response.data)} recent tweets")
+        else:
+            print("✅ Twitter API: OK - Search completed but no tweets found")
 except Exception as e:
     print(f"❌ Twitter API: {e}")
 
