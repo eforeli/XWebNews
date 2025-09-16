@@ -21,8 +21,10 @@ load_dotenv()
 try:
     from news_reporter import Web3NewsReporter
     NEWS_REPORTER_AVAILABLE = True
-except ImportError:
+    print("✅ News reporter module imported successfully")
+except ImportError as e:
     NEWS_REPORTER_AVAILABLE = False
+    print(f"❌ Failed to import news reporter: {e}")
 
 class RotationalWeb3Crawler:
     def __init__(self, bearer_token: str):
@@ -241,6 +243,7 @@ class RotationalWeb3Crawler:
         test_tweets.sort(key=lambda x: x['engagement_score'], reverse=True)
         
         self.logger.info(f"✅ {category}: 已生成 {len(test_tweets)} 條測試推文")
+        print(f"🧪 測試資料生成: {category} - {len(test_tweets)} 條推文")
         return test_tweets
 
     def run_daily_crawl(self) -> Dict[str, List[Dict[str, Any]]]:
@@ -336,6 +339,7 @@ def main():
             print(f"   ✅ {category}: {len(tweets)} 條推文 (平均互動: {avg_engagement:.1f})")
     
     print(f"\n🎉 成功爬取 {successful_categories} 個賽道，共 {total_tweets} 條推文")
+    print(f"🔍 Debug: successful_categories = {successful_categories}, NEWS_REPORTER_AVAILABLE = {NEWS_REPORTER_AVAILABLE}")
     
     # LINE Bot 推播功能
     if successful_categories >= 1 and NEWS_REPORTER_AVAILABLE:
