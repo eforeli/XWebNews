@@ -34,7 +34,8 @@ def is_execution_time():
 
 def has_run_today():
     """檢查今天是否已經執行過"""
-    today = datetime.now().strftime('%Y-%m-%d')
+    taipei_tz = pytz.timezone('Asia/Taipei')
+    today = datetime.now(taipei_tz).strftime('%Y-%m-%d')
     try:
         with open('last_run.txt', 'r') as f:
             last_run = f.read().strip()
@@ -44,7 +45,8 @@ def has_run_today():
 
 def mark_as_run():
     """標記今天已執行"""
-    today = datetime.now().strftime('%Y-%m-%d')
+    taipei_tz = pytz.timezone('Asia/Taipei')
+    today = datetime.now(taipei_tz).strftime('%Y-%m-%d')
     with open('last_run.txt', 'w') as f:
         f.write(today)
 
@@ -76,9 +78,15 @@ def main():
     
     while True:
         try:
+            taipei_tz = pytz.timezone('Asia/Taipei')
+            current_time = datetime.now(taipei_tz)
+            
             if is_execution_time() and not has_run_today():
                 logger.info("到達執行時間，開始爬蟲...")
                 run_crawler()
+            elif current_time.hour == 8 and current_time.minute == 0:
+                if has_run_today():
+                    logger.info(f"今日已執行過爬蟲，跳過 (當前時間: {current_time.strftime('%H:%M')})")
             
             # 每60秒檢查一次
             time.sleep(60)
